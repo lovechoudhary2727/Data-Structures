@@ -11,35 +11,32 @@ const lli mod = 1e9+7;
 int main()
 {
 	//fastIO();
-	
+
 	int V,E;				// Taking no. of nodes & edges as input.
 	cin >> V >> E;
-  
-  // ADJACENCY MATRIX
-  
-  int adj[V][V];
-  for(int i=0;i<E;i++)
-  {
-      int u,v;
-      cin >> u >> v;
-      adj[u][v] = 1;
-      adj[v][u] = 1;  // undirected graph.
-  }
-  
-  // ADJACENCY LIST
 
-	vector<int> arr[V];		// Declaring adjacency list of vector, of size V. 
+	// ADJACENCY MATRIX
 
-	for(int i=0;i<E;i++)	// Reading all Edges in the graph.
+	int adj[V][V];
+	for(int i=0;i<E;i++)
+	{
+	int u,v;
+	cin >> u >> v;
+	adj[u][v] = 1;
+	adj[v][u] = 1;  // undirected graph.
+	}
+
+	// ADJACENCY LIST
+
+	vector<int> arr[V];			// Declaring adjacency list of vector, of size V. 
+
+	for(int i=0;i<E;i++)			// Reading all Edges in the graph.
 	{
 		int u,v;
 		cin >> u >> v;			// emplies an edge from node u to v.
 		arr[u].push_back(v);
-		arr[v].push_back(u);	// for Undirected graph.
+		arr[v].push_back(u);		// for Undirected graph.
 	}
-
-
+	
 	return 0;
 }
-
- 
