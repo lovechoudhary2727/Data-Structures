@@ -20,10 +20,10 @@ int main()
 	int adj[V][V];
 	for(int i=0;i<E;i++)
 	{
-	int u,v;
-	cin >> u >> v;
-	adj[u][v] = 1;
-	adj[v][u] = 1;  // undirected graph.
+		int u,v;
+		cin >> u >> v;
+		adj[u][v] = 1;
+		adj[v][u] = 1;  // undirected graph.
 	}
 
 	// ADJACENCY LIST
