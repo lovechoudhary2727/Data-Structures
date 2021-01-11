@@ -33,7 +33,7 @@ void Dijkstra(vector<vector<int> >& adj,int V,int src)
 
 	memset(processed,false,sizeof(processed));		// Initially all nodes are marked un-processed
 	for(int i=0;i<1001;i++)
-		dist[i] = INF;								// Initially distance of all nodes from the source node is considered to be infinity.
+		dist[i] = INT_MAX;								// Initially distance of all nodes from the source node is considered to be infinity.
 
 	dist[src] = 0;									// Distance of source node from itself is 0
 	parent[src] = -1;		
