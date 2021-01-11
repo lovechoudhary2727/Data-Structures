@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+void Dijkstra(vector<pair<int,int> > arr[],int V,int src)
+{
+	int dist[V],parent[V];						
+
+	for(int i=0;i<1001;i++)
+		dist[i] = INT_MAX;								// Initially distance of all nodes from the source node is considered to be infinity.		
+
+	set<pair<int,int> > s;
+
+	s.insert({0,src});
+	dist[src] = 0;									// Distance of source node from itself is 0
+	parent[src] = -1;
+
+	while(!s.empty())
+	{
+		pair<int,int> temp = *(s.begin());
+		s.erase(s.begin());
+
+		int u = temp.second;
+
+		for(auto x : arr[u])
+		{
+			int node = x.first;
+			int weight = x.second;
+
+			if(dist[x] + weight < dist[node])
+			{
+				if(dist[node] != INT_MAX)
+					s.erase(s.find({dist[node],node}));
+
+				dist[node] = dist[x] + weight;
+				parent[node] = x;
+				s.insert({dist[node],node});
+			}
+		}
+	}
+
+	for(int i=0;i<V;i++)
+		cout << dist[i] << " ";
+
+}
+
+int main()
+{
+	//fastIO();
+
+	int V,E;				// Taking no. of nodes & edges as input.
+	cin >> V >> E;
+
+	vector<pair<int,int> > arr[V];
+	for(int i=0;i<E;i++)
+	{
+		int u,v,w;
+		cin >> u >> v >> w;
+		arr[u].push_back({v,w});
+		arr[v].push_back({u,w});	// Undirected graph
+	}
+
+	Dijkstra(arr,V,0);		// Calling Dijkstra's Function.
+
+	return 0;
+}
