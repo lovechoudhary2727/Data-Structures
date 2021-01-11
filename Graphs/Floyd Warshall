@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+#define V 4
+
+void FloydWarshall(int adj[V][V])
+{
+	int dist[V][V];
+
+	// Assign all values of adj to dist[][]
+	for(int i=0;i<V;i++)
+	{
+		for(int j=0;j<V;j++)
+			dist[i][j] = adj[i][j];
+	}
+
+	for(int k=0;k<V;k++)
+	{
+		for(int i=0;i<V;i++)
+		{
+			for(int j=0;j<V;j++)
+			{
+				if(dist[i][k] == INT_MAX || dist[k][j] == INT_MAX)
+					continue;
+				else if(dist[i][k] + dist[k][j] < dist[i][j])
+					dist[i][j] = dist[i][k] + dist[k][j];
+			}
+		}
+	}
+
+	// Distance of a node from itself can't be negative
+	for(int i=0;i<V;i++)
+	{
+		if(dist[i][i] < 0)
+		{
+			cout << "Negative Weight Cycle is Present\n";
+			return ;
+		}
+	}
+
+	// Print  shortest distance between each vertex pair
+
+}
+
+int main()
+{
+	//fastIO();
+
+	int adj[V][V] = { {0,   5,  INF, 10},
+                    {INF,  0,  3,  INF},
+                    {INF, INF, 0,   1},
+                    {INF, INF, INF, 0} }
+
+	FloydWarshall(adj);
+
+	return 0;
+}
