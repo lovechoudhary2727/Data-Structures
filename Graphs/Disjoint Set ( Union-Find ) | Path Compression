@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+pair<int,int> dsuf[1001];			//Declaring a parent array storing "Parent" & "RANK" of the ith node.
+	
+int find(int n)				// Recursively finds absolute root of a node 'n'.				
+{
+	if(dsuf[n].first == -1)
+		return n;
+
+	//PATH COMPRESSION
+	return dsuf[n].first = find(dsuf[n].first);		
+}
+
+// Union by RANK
+void union(int x,int y)		// Takes Union of 2 sets
+{
+	// CASE 1
+	if(dsuf[x].second > dsuf[y].second)
+		dsuf[y].first = x;			
+	else if(dsuf[x].second < dsuf[y].second)
+		dsuf[x].first = y;
+	else
+	{
+		// CASE 2
+		dsuf[x].first = y;		// Make one of the Absolute root as parent and other as child & increase the RANK of parent by 1.
+		dsuf[y].second += 1;
+	}		
+}
+
+bool isCyclic(vector<pair<int,int>> &Edgelist)
+{
+	for(int i=0;i<1001;i++)	
+	{
+		dsuf[i].first = -1;		// Initially all nodes belong to seperate sets and are absolute root of their respective sets.
+		dsuf[i].second = 0;		// Initially RANK is equal to the height i.e. 0.
+	}
+
+	for(auto e : Edgelist)
+	{
+		int from = find(e.first);		//finds absolute root of node e.first
+		int to = find(e.second);		//finds absolute root of node e.second
+
+		if(from == to)					// If they have same absolute root then it emplies that both of them belongs to the same set.
+			return true;				// Hence a cycle is present.
+
+		union(from,to);					// Otherwise take union of sets
+	}
+
+	return false;
+
+}
+
+int main()
+{
+	//fastIO();
+
+	int V,E;				// Taking no. of nodes & edges as input.
+	cin >> V >> E;
+
+	vector<pair<int,int> > Edgelist;			// Taking all edges of the graph as input
+	for(int i=0;i<E;i++)
+	{
+		int from,to;
+		cin >> from >> to;
+		Edgelist.push_back({from,to});
+	}
+
+	if(isCyclic(Edgelist))
+		cout << "Cyclic\n";
+	else
+		cout << "Acyclic\n";
+
+	return 0;
+}
