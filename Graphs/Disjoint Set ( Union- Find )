@@ -11,7 +11,7 @@ enum Color {WHITE, GRAY, BLACK};
 
 int parent[1001];			//Declaring a parent array storing parent of the ith node.
 	
-int find(int i)				// Recursively finds absolute root of a node 'n'.				
+int find(int n)				// Recursively finds absolute root of a node 'n'.				
 {
 	if(parent[n] == -1)
 		return n;
@@ -29,7 +29,7 @@ void union(int x,int y)		// Takes Union of 2 sets
 
 bool isCyclic(vector<pair<int,int>> &Edgelist)
 {
-	memset(parent.-1,sizeof(parent));	// Initially all nodes belong to seperate sets with only 1 element, and are absolute root of that set having no parent.
+	memset(parent,-1,sizeof(parent));	// Initially all nodes belong to seperate sets with only 1 element, and are absolute root of that set having no parent.
 
 	for(auto e : Edgelist)
 	{
