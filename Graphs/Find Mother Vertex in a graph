@@ -1,9 +1,8 @@
 /*
-  Keep a track of Last visited vertices and last visited vertex will be the mother vertex if applying DFS after it none of the node remain unvisited.
+  Algo -> Keep a track of Last visited vertices and last visited vertex will be the mother vertex if applying DFS after it none of the node remain unvisited.
   
-  Think whether the last visited vertex can be the root vertex or not??
+  Think whether the last visited vertex can be the root vertex of tree or not??
   Ans = Yes, Think !
-
 */
 #include <bits/stdc++.h>
 
@@ -19,7 +18,7 @@ enum Color {WHITE, GRAY, BLACK};
 
 bool visited[1001];
 
-void DFS(vector<int> arr[],int node)
+void DFS(vector<int> arr[],int node)		// Applying DFS to node i
 {
 	if(visited[node] == true)
 		return ;
@@ -27,9 +26,7 @@ void DFS(vector<int> arr[],int node)
 	visited[node] = true;
 	vector<int>:: iterator it;
 	for(it=arr[node].begin();it!=arr[node].end();it++)
-	{
 		DFS(arr,*it);
-	}
 }
 
 int main()
@@ -48,12 +45,13 @@ int main()
 		arr[u].push_back(v);	// Directed Graph
 	}
 
-	int lev=0;
+	int lev=0;			// Initially let last visited vertex be 0 
 	for(int i=0;i<V;i++)
 	{
 		if(visited[i] == false)
 		{
-			lev = i;
+			lev = i;		// updating last visited vertex and calling DFS for that vertex & this is analogous to the Brute force solution where we were 
+						   applying DFS for each vertex but here we are appling only when we update last visited vertex.
 			DFS(arr,i);
 		}
 	}
@@ -63,7 +61,7 @@ int main()
 	{
 		if(visited[i] == false)
 		{
-			flag=1;
+			flag=1;			// If any of the vertex remains unvisited then mother vertex can't be found.
 			break;
 		}
 	}
