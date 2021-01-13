@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>                                                                          
+                                                                                                    
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+int isPath[1001][1001];					// Declaring a array to check whether the node 'v' is reachable from the node 'u' 
+
+void DFS(vector<int> arr[],int u,int v)
+{
+	if(isPath[u][v] == 1)				// If node 'v' is reachable from node 'u' then all adjacent nodes of 'v' are also reachable from 'u'
+		return ;
+
+	isPath[u][v] = 1;					// If node 'v' is not reachable from the node 'u' then mark 'v' as reachable.
+
+	vector<int>:: iterator it;
+	for(it=arr[v].begin();it!=arr[v].end();it++)		// Also, If node 'v' is reachable from node 'u' then all adjacent nodes of 'v' will also be reachable from 'u'
+		DFS(arr,u,*it);
+
+}
+
+int main()
+{
+	//fastIO();
+
+	int V,E;
+	cin >> V >> E;
+
+	vector<int> arr[V];
+	for(int i=0;i<E;i++)
+	{
+		int u,v;
+		cin >> u >> v;
+
+		arr[u].push_back(v);	// Directed Graph
+	}
+
+	memset(isPath,0,sizeof(isPath));		// Initially marking all nodes as unreachable 
+	
+	for(int i=0;i<V;i++)
+	{
+		if(isPath[i][i] == 0)				// If a node is unreachable from another node mark it as reachable. 
+			DFS(arr,i,i);
+	}
+
+	cout << "Transtive Closure of the given Directed Graphs is : \n";
+	for(int i=0;i<V;i++)
+	{
+		for(int j=0;j<V;j++)
+			cout << isPath[i][j] << " ";
+		cout << "\n";
+	}
+
+	return 0;
+}
