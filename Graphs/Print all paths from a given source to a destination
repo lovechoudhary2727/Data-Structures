@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+bool visited[1001];
+
+void DFS(vector<int> arr[],int path[],int src,int dest,int index)
+{
+	visited[src] = true;
+	path[index] = src;
+	index++;
+
+	//if destination node is found then print the path stored in path[]
+	if(src == dest)
+	{								
+		for(int i=0;i<index;i++)
+			cout << path[i] << " ";
+		cout << "\n";
+	}
+	else
+	{
+		vector<int>:: iterator it;
+		for(it=arr[src].begin();it!=arr[src].end();it++)
+		{
+			if(visited[*it] == false)
+				DFS(arr,path,*it,dest,index);
+		}
+	}
+
+	//backtrack after visiting all adjacent nodes
+	index--;
+	visited[src] = false;
+
+}
+
+int main()
+{
+	//fastIO();
+
+	memset(visited,false,sizeof(visited));		// Initially all nodes are marked un-visited.		
+
+	int V,E;
+	cin >> V >> E;
+
+	vector<int> arr[V];
+	for(int i=0;i<E;i++)
+	{
+		int u,v;
+		cin >> u >> v;
+
+		arr[u].push_back(v);	// Directed graph
+		arr[v].push_back(u);	// Undirected graph
+	}
+
+	int source,destination;
+	cin >> source >> destination;
+
+	int path[V];							// Declaring a path array to store a path from source to destination
+	DFS(arr,path,source,destination,0);		
+
+	return 0;
+}
