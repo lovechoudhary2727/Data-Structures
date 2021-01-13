@@ -13,8 +13,6 @@ enum Color {WHITE, GRAY, BLACK};
 //O(1) - Space
 void DFS(vector<int> arr[],int node,int parent)
 {
-	visited[node] = true;
-
 	vector<int>:: iterator it;
 	for(it=arr[node].begin();it!=arr[node].end();it++)
 	{
