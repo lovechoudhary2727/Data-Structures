@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+int dist[1001];
+bool visited[1001];
+
+void BFS(vector<int> arr[],int src)
+{
+	queue<int> q;
+	q.push(src);
+
+	visited[src] = true;
+	dist[src] = 0;
+
+	while(!q.empty())
+	{
+		int u = q.front();
+		q.pop();
+
+		vector<int>:: iterator it;
+		for(it=arr[u].begin();it!=arr[u].end();it++)
+		{
+			if(visited[*it] == false)
+			{
+				visited[*it] = true;
+				dist[*it] = dist[u] + 1;					// distance(node|source) = distance(parent|source) + 1
+				q.push(*it);
+			}
+		}
+	}
+
+}
+
+int main()
+{
+	//fastIO();
+
+	memset(visited,false,sizeof(visited));
+
+	int V,E,level;
+	cin >> V >> E >> level;
+
+	vector<int> arr[V];
+	for(int i=0;i<E;i++)
+	{
+		int u,v;
+		cin >> u >> v;
+
+		arr[u].push_back(v);	// Directed Graph
+		arr[v].push_back(u);	// Undirected Graph
+	}
+
+	BFS(arr,0);
+
+	int count=0;				
+	for(int i=0;i<V;i++)
+		if(dist[i] == level)		// If a node is at a distance 'x' from the source node, it emplies that it will be at level 'x'
+			count++;
+
+	cout << "No. of nodes at level " << level << " is = " << count << "\n";
+
+	return 0;
+}
