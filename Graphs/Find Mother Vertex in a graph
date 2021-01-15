@@ -1,8 +1,7 @@
 /*
   Algo -> Keep a track of Last visited vertices and last visited vertex will be the mother vertex if applying DFS after it none of the node remain unvisited.
   
-  Think whether the last visited vertex can be the root vertex of tree or not??
-  Ans = Yes, Think !
+  This thing can be extended to find the root of a directed graph only.
 */
 #include <bits/stdc++.h>
 
