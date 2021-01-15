@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+bool visited[1001][1001];
+int dist[1001][1001];
+
+// Utility method returns true if (x, y) lies 
+// inside Board 
+bool isInside(int x, int y, int n) 
+{ 
+    if (x >= 1 && x <= n && y >= 1 && y <= n) 
+        return true; 
+    return false; 
+} 
+
+int BFS(int kp[],int tp[],int n)
+{
+    // x and y direction, where a knight can move 
+    int dx[] = { -2, -1, 1, 2, -2, -1, 1, 2 }; 
+    int dy[] = { -1, -2, -2, -1, 1, 2, 2, 1 };
+
+	queue<pair<int,int> > q;
+
+	q.push(make_pair(kp[0],kp[1]));
+	dist[kp[0]][kp[1]] = 0;
+	visited[kp[0]][kp[1]] = true;
+
+	while(!q.empty())
+	{
+		pair<int,int> temp = q.front();
+		q.pop();
+
+        // if current cell is equal to target cell, 
+        // return its distance 
+        if (temp.first == tp[0] && temp.second == tp[1]) 
+            return dist[temp.first][temp.second]; 
+  
+        // loop for all reachable states 
+        for (int i = 0; i < 8; i++) 
+        { 
+            int x = temp.first + dx[i]; 
+            int y = temp.second + dy[i]; 
+  
+            // If reachable state is not yet visited and 
+            // inside board, push that state into queue 
+            if (isInside(x, y, n) && visited[x][y] == false) 
+            { 
+                visited[x][y] = true; 
+                q.push(make_pair(x,y));
+                dist[x][y] = dist[temp.first][temp.second] + 1; 
+            } 
+        }
+        
+	}
+
+}
+
+int main()
+{
+	//fastIO();		
+
+	memset(visited,false,sizeof(visited));
+
+	int n;
+	cin >> n;
+
+	int kp[] = {1,1};
+	int tp[] = {30,30};
+
+	cout << "Min Steps = " << BFS(kp,tp,n) << "\n";
+
+	return 0;
+}
