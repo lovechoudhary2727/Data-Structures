@@ -42,6 +42,8 @@ bool isIdentical(struct node* root1,struct node* root2)
 	*/
 	if(root1->data == root2->data)
 		return isIdentical(root1->left,root2->right) && isIdentical(root1->right,root2->left);
+	
+	return false;		// refers to the case when root values are not same;
 
 }
 
