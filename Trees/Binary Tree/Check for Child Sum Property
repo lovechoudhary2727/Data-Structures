@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+struct node{
+
+	int data;
+	struct node* left;
+	struct node* right;
+};
+
+//creating root node
+struct node* CreateNode(int x)										
+{
+	struct node *root = (struct node*)malloc(sizeof(struct node));		//Dynammically allocating memory for root node
+	root->data = x;
+	root->right = NULL;
+	root->left = NULL;
+
+	return root;			//returning address of root node
+}
+
+bool check(struct node *root)
+{
+	/*
+		1. If root == NULL then ti follow child sum property.
+		2. If a node is leaf node the it will also follow child sum property.
+	*/
+	if(root == NULL || (root->left == NULL && root->right == NULL))
+		return true;
+
+	int leftval=0,rightval=0;	//must be initialized with 0 for the case then one child is absent. In that case leftval + rightval will make some sense.
+	if(root->left != NULL)
+		leftval = root->left->data;
+	if(root->right != NULL)
+		rightval = root->right->data;
+
+	if(root->data == leftval + rightval)
+		return check(root->left) && check(root->right);
+
+	return false;
+}
+
+int main()
+{
+	//fastIO();
+
+    struct node *root = CreateNode(10); 
+    root->left        = CreateNode(8); 
+    root->right       = CreateNode(2); 
+    root->left->left  = CreateNode(3); 
+    root->left->right = CreateNode(5);
+    root->right->left = CreateNode(2); 
+
+	if(check(root) == true)
+		cout << "True\n";
+	else
+		cout << "False\n"; 
+
+	return 0;
+}
