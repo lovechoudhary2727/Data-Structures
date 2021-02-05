@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+struct node{
+
+	int data;
+	struct node* left;
+	struct node* right;
+};
+
+//creating root node
+struct node* newNode(int x)										
+{
+	struct node *root = (struct node*)malloc(sizeof(struct node));		//Dynammically allocating memory for root node
+	root->data = x;
+	root->right = NULL;
+	root->left = NULL;
+
+	return root;			//returning address of root node
+}
+
+bool check(Node *root)
+{
+    if(root == NULL)
+        return true;
+    
+	queue<Node*> q;
+	q.push(root);
+
+	int count=0;
+	while(!q.empty())
+	{	
+		int n = q.size();
+		
+		int flag=0;
+		while(n--)
+		{
+			      struct Node *temp = q.front();
+			      q.pop();
+
+			      if(temp->left == NULL && temp->right == NULL)
+				      flag=1;
+            else
+            {
+                if(temp->left != NULL)
+                    q.push(temp->left);
+                if(temp->right != NULL)
+                    q.push(temp->right);
+            }
+				
+		}
+
+        if(flag == 1)
+        {
+            count++;
+            if(count > 1)
+                break;
+        }
+	}
+
+	if(count > 1)
+		return false;
+	else
+		return true;
+}
+
+int main()
+{
+	//fastIO();
+
+    // construct a tree
+    struct node* root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->right = newNode(4);
+    root->right->left = newNode(5);
+    root->right->right = newNode(6);
+  
+    bool result = check(root);
+    if (result == true)
+        cout << "All leaf nodes are at same level\n";
+    else
+        cout << "Leaf nodes not at same level\n";
+
+
+	return 0;
+}
