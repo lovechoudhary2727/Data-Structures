@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+struct node{
+
+	int data;
+	struct node* left;
+	struct node* right;
+};
+
+//creating root node
+struct node* newNode(int x)										
+{
+	struct node *root = (struct node*)malloc(sizeof(struct node));		//Dynammically allocating memory for root node
+	root->data = x;
+	root->right = NULL;
+	root->left = NULL;
+
+	return root;			//returning address of root node
+}
+
+void RightView(struct node *root)
+{
+   // If root node is NULL print nothing
+   if(root == NULL)
+        return ;
+        
+    queue<node*> q;
+    q.push(root);
+    
+    while(!q.empty())
+    {
+        int n = q.size();
+        
+        for(int i=0;i<n;i++)
+        {
+            struct node *temp = q.front();
+            q.pop();
+            
+            if(i==n-1)
+                cout << temp->data << " ";
+                
+            if(temp->left)
+                q.push(temp->left);
+            if(temp->right)
+                q.push(temp->right);
+        }
+    }
+
+    cout << "\n";
+
+}
+
+int main()
+{
+	//fastIO();
+
+    // construct a tree
+    struct node* root = newNode(10); 
+    root->left = newNode(2); 
+    root->right = newNode(3); 
+    root->left->left = newNode(7); 
+    root->left->right = newNode(8); 
+    root->right->right = newNode(15); 
+    root->right->left = newNode(12); 
+    root->right->right->left = newNode(14); 
+ 
+    RightView(root); 
+
+
+	return 0;
+}
