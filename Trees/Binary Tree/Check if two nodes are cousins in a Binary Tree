@@ -1,0 +1,95 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int lli;
+#define fastIO() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define llimit 1e18
+#define slimit 1e9
+#define matrix vector< vector<lli> >
+const int INF = 1e9+7;
+const lli mod = 1e9+7;
+enum Color {WHITE, GRAY, BLACK};
+
+struct node{
+
+	int data;
+	struct node* left;
+	struct node* right;
+};
+
+//creating root node
+struct node* newNode(int x)										
+{
+	struct node *root = (struct node*)malloc(sizeof(struct node));		//Dynammically allocating memory for root node
+	root->data = x;
+	root->right = NULL;
+	root->left = NULL;
+
+	return root;			//returning address of root node
+}
+
+bool isCousin(struct node *root,int x,int y)
+{
+	queue<pair<node*,node*> > q;
+	q.push({root,NULL});
+
+	struct node *parX, *parY;
+	while(!q.empty())
+	{
+		int n = q.size();
+
+		parX = parY = NULL;
+		while(n--)
+		{
+			pair<node*,node*> temp = q.front();
+			q.pop();
+
+       // If both the nodes are found at the same level 
+			if((temp.first)->data == x)
+				parX = temp.second;
+			if((temp.first)->data == y)
+				parY = temp.second;
+
+			if((temp.first)->left != NULL)
+				q.push({(temp.first)->left,temp.first});
+			if((temp.first)->right != NULL)
+				q.push({(temp.first)->right,temp.first});
+		}
+    
+    // If parX & parY are not NULL then it emplies that both the nodes are found at the same level.
+		if(parX!=NULL && parY!=NULL)
+			break;
+	}
+
+  //If parX != parY then both the nodes are said to be cousins of each other else not.
+	if(parX!=NULL && parY!=NULL)
+		return parX!=parY;
+	return false;
+}
+
+int main()
+{
+	//fastIO();
+
+    struct Node* root = newNode(1); 
+    root->left = newNode(2); 
+    root->right = newNode(3); 
+    root->left->left = newNode(4); 
+    root->left->right = newNode(5); 
+    root->left->right->right = newNode(15); 
+    root->right->left = newNode(6); 
+    root->right->right = newNode(7); 
+    root->right->left->right = newNode(8); 
+  
+    struct Node *x, *y; 
+    x = root->left->left; 
+    y = root->right->right;
+
+    if(isCousin(root,x,y) == true)
+    	cout << "Cousin\n";
+    else
+    	cout << "Not Cousin\n";
+
+
+	return 0;
+}
